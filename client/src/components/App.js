@@ -4,6 +4,7 @@ import {Route, Switch} from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./Login.js"
 import Signup from "./Signup.js"
+import Albums from "./Albums.js";
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
         </Route>
         <Route exact path="/signup">
           <Signup />
+        </Route>
+        <Route exact path="/albums">
+          <Albums/>
         </Route>
       </Switch>
     </div>
