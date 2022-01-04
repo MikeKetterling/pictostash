@@ -19,6 +19,9 @@ function App() {
         <Route exact path="/albums">
           <Albums/>
         </Route>
+        <Route exact path="/sandbox">
+          <Sandbox />
+        </Route>
       </Switch>
     </div>
   );
