@@ -4,7 +4,8 @@ import {Route, Switch} from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./Login.js"
 import Signup from "./Signup.js"
-import Albums from "./Albums.js";
+import AlbumList from "./AlbumList.js";
+import Album from "./Album.js";
 
 function App() {
   return (
@@ -16,8 +17,11 @@ function App() {
         <Route exact path="/signup">
           <Signup />
         </Route>
-        <Route exact path="/albums">
-          <Albums/>
+        <Route exact path="/albumlist">
+          <AlbumList/>
+        </Route>
+        <Route exact path="/album">
+          <Album/>
         </Route>
       </Switch>
     </div>

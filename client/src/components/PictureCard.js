@@ -1,16 +1,8 @@
 import {Card, Button, Col} from 'react-bootstrap'
-import {useHistory} from 'react-router'
 
-function AlbumCard() {
-
-    const history = useHistory()
-
-    function handleClick() {
-        history.push('/album')
-    }
-
+function PictureCard() {
     return (
-        <div className="album-card">
+        <div className="picture-card">
             <Col className='my-5 mx-3'>
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src="https://picsum.photos/100/100" />
@@ -20,7 +12,7 @@ function AlbumCard() {
                         Some quick example text to build on the card title and make up the bulk of
                         the card's content.
                         </Card.Text>
-                        <Button variant="primary" onClick={handleClick}>View Album</Button>
+                        <Button variant="primary">View Image</Button>
                     </Card.Body>
                 </Card>
             </Col>
@@ -28,4 +20,4 @@ function AlbumCard() {
     )
 }
 
-export default AlbumCard;
+export default PictureCard;

@@ -11,3 +11,36 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.btn-circle.btn-xl { 
+  width: 80px; 
+  height: 80px; 
+  /* padding: 10px 16px;  */
+  /* margin-bottom: 10px; */
+  border-radius: 100%; 
+  /* font-size: 10px;  */
+  text-align: center;
+} 
+
+.fixed-bottom {
+  margin-left: 90%;
+}
+
+.App {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: burlywood;
+}
+
+.image-list {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  padding-right: 80px;
+  background-color: bisque;
+}
+
+.image-list::-webkit-scrollbar {
+  display: none;
+}
