@@ -6,6 +6,7 @@ import Login from "./Login.js"
 import Signup from "./Signup.js"
 import AlbumList from "./AlbumList.js";
 import Album from "./Album.js";
+import Sandbox from "./Sandbox.js";
 
 function App() {
   return (
