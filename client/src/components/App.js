@@ -1,5 +1,5 @@
-import React from "react"
-import {Route, Switch} from "react-router-dom"
+import React, {useState, useEffect} from "react";
+import {Route, Switch} from "react-router-dom";
 // import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./Login.js"
@@ -9,14 +9,33 @@ import Album from "./Album.js";
 import Sandbox from "./Sandbox.js";
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // useEffect(() => {
+  //   fetch("/me").then((resp) => {
+  //     if (resp.ok) {
+  //       resp.json().then((user) => {
+  //         setCurrentUser(user);
+  //         setIsAuthenticated(true);
+  //       });
+  //     }
+  //   });
+  // }, []);
+
+  if (!isAuthenticated) {
+    return <div></div>
+  }
+
+
   return (
     <div className="App">
       <Switch>
         <Route exact path="/">
-          <Login />
+          <Login setCurrentUser ={setCurrentUser}/>
         </Route>
         <Route exact path="/signup">
-          <Signup />
+          <Signup setCurrentUser ={setCurrentUser}/>
         </Route>
         <Route exact path="/albumlist">
           <AlbumList/>
