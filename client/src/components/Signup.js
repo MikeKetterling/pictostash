@@ -2,7 +2,7 @@ import { Form, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import { useHistory, Link } from "react-router-dom"
 
-//need to pass in setCurrentUser from parent
+
 function Signup({setCurrentUser}) {
   const history = useHistory();
   const [formData, setFormData] = useState({

@@ -2,7 +2,7 @@ import { Link, useHistory } from "react-router-dom"
 import {Form, Button} from 'react-bootstrap'
 import { useState } from 'react'
 
-//need to pass in setCurrentUser from parent
+
 function Login({ setCurrentUser }) {
   const history = useHistory();
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ function Login({ setCurrentUser }) {
         resp.json().then((user) => {
           setCurrentUser(user);
         })
-        history.push("/albums"); 
+        history.push("/album"); 
       } else {
         resp.json().then((errors) => {
           console.error(errors);
@@ -65,7 +65,7 @@ function Login({ setCurrentUser }) {
             <Form.Control placeholder="Password" type="password" name="password" value={formData.password} onChange={(e) => handleChange(e)}/>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Control placeholder="Enter Email" type="email" name="email" value={formData.email} onChange={(e) => handleChange(e)}/>
+            <Form.Control placeholder="Email" type="email" name="email" value={formData.email} onChange={(e) => handleChange(e)}/>
           </Form.Group>
 
           <br></br>
@@ -78,6 +78,9 @@ function Login({ setCurrentUser }) {
           <br></br>
 
         <Link exact to="/signup">Don't have an account? Create one here</Link>
+        <br/>
+        <br/>
+
 
         <Button onClick={handleLogout}>Logout</Button>
 
