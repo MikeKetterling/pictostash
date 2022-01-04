@@ -15,5 +15,4 @@ class PicturesController < ApplicationController
     def picture_params
         params.permit(:image_url, :album_id)
     end
-
 end
