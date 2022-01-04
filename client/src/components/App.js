@@ -1,17 +1,23 @@
 import React from "react"
 import {Route, Switch} from "react-router-dom"
-import './App.css';
-import Sandbox from './Sandbox.js';
+// import '../App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from "./Login.js"
+import Signup from "./Signup.js"
+import Albums from "./Albums.js";
 
 function App() {
   return (
     <div className="App">
       <Switch>
         <Route exact path="/">
-          <div>login page</div>
+          <Login />
         </Route>
         <Route exact path="/signup">
-          <div>signup page</div>
+          <Signup />
+        </Route>
+        <Route exact path="/albums">
+          <Albums/>
         </Route>
         <Route exact path="/sandbox">
           <Sandbox />
