@@ -1,10 +1,16 @@
 import { Row, Col, Button, Modal } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PictureCard from "./PictureCard";
 import CarouselImage from "./CarouselImage";
 
-function Album() {
+function Album({activeAlbum}) {
+
+    useEffect(() => {
+        console.log("Inside Album useEffect");
+        console.log("This will fetch the pictures for the album (eventually)");
+    },[]);
+
     const imgUrls = ['https://picsum.photos/500/500', 'https://picsum.photos/400/500', 'https://picsum.photos/500/400', 'https://picsum.photos/400/400', 'https://picsum.photos/600/500']
     const [show, setShow] = useState(false)
     const [showImg, setShowImg] = useState(false)
@@ -80,7 +86,7 @@ function Album() {
         <div className="container d-flex flex-column image-list">
             <Row>
                 <Col lg={12}>
-                    <h1 className="text-center my-5">ALBUM NAME</h1>
+                    <h1 className="text-center my-5">{activeAlbum.name}</h1>
                 </Col>
             </Row>
             <Row sm="auto" className="d-flex justify-content-center">

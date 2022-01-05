@@ -2,7 +2,7 @@ import { Row, Col, Button, Modal, Form } from "react-bootstrap";
 import AlbumCard from "./AlbumCard";
 import {useState} from "react";
 
-function AlbumList() {
+function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum}) {
 
     const [show, setShow] = useState(false);
     const [formData, setFormData] = useState({
@@ -20,8 +20,8 @@ function AlbumList() {
         setShow(false)
     }
 
-
-
+    const allAlbumCards = albums.map(album => <AlbumCard album={album} setActiveAlbum={setActiveAlbum}/>);
+    
     //upload helpers (within modal)
     function changeHandler(e) {
         const key = e.target.name;
@@ -46,7 +46,7 @@ function AlbumList() {
             };
             fetch(postURL, postConfig)
             .then(res => res.json())
-            .then(response => console.log(response))            
+            .then(responseAlbumObj => addNewAlbum(responseAlbumObj));
         }
         handleClose();                
     }
@@ -59,14 +59,7 @@ function AlbumList() {
                 </Col>
             </Row>
             <Row sm="auto" className="d-flex justify-content-center">
-                <AlbumCard />
-                <AlbumCard />
-                <AlbumCard />
-                <AlbumCard />
-                <AlbumCard />
-                <AlbumCard />
-                <AlbumCard />
-                <AlbumCard />
+                {allAlbumCards}
             </Row>
 
             <Button className="my-5 btn-circle btn-xl fixed-bottom" variant="primary" onClick={handleShow}>

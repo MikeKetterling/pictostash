@@ -10,8 +10,10 @@ import Sandbox from "./Sandbox.js";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-
+  const [currentUser, setCurrentUser] = useState([]);
+  const [userAlbums, setUserAlbums] = useState([]);
+  const [activeAlbum, setActiveAlbum] = useState([]);
+  
   const history = useHistory();
 
   useEffect(() => {
@@ -20,6 +22,7 @@ function App() {
         resp.json().then((user) => {
           setCurrentUser(user);
           setIsAuthenticated(true);
+          setUserAlbums(user?.albums);
         });
       }
     });
@@ -28,8 +31,12 @@ function App() {
   // if (!isAuthenticated) {
   //   history.push("/");
   // }
+  console.log(currentUser);
 
-  console.log(currentUser)
+  //state update helper
+  function addNewAlbum(albumObj) {
+    setUserAlbums([...userAlbums, albumObj]);
+  }
   
   return (
     <div className="App">
@@ -41,10 +48,10 @@ function App() {
           <Signup setCurrentUser ={setCurrentUser}/>
         </Route>
         <Route exact path="/albumlist">
-          <AlbumList />
+          <AlbumList user={currentUser} albums={userAlbums} addNewAlbum={addNewAlbum} activeAlbum={activeAlbum} setActiveAlbum={setActiveAlbum}/>
         </Route>
         <Route exact path="/album">
-          <Album />
+          <Album activeAlbum={activeAlbum}/>
         </Route>
         <Route exact path="/sandbox">
           <Sandbox />
