@@ -17,7 +17,7 @@ function AlbumCard({album, setActiveAlbum}) {
     )
 
     function handleClick() {
-        setActiveAlbum(album.id);
+        setActiveAlbum(album);
         history.push('/album');        
     }
 
