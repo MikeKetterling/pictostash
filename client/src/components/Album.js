@@ -4,20 +4,29 @@ import { useEffect, useState } from "react";
 import PictureCard from "./PictureCard";
 import CarouselImage from "./CarouselImage";
 
-function Album({activeAlbum}) {
-
-    useEffect(() => {
-        console.log("Inside Album useEffect");
-        console.log("This will fetch the pictures for the album (eventually)");
-    },[]);
-
+function Album({activeAlbum}) {    
     const imgUrls = ['https://picsum.photos/500/500', 'https://picsum.photos/400/500', 'https://picsum.photos/500/400', 'https://picsum.photos/400/400', 'https://picsum.photos/600/500']
+    const [allURLs, setAllURLs] = useState([]);
     const [show, setShow] = useState(false)
     const [showImg, setShowImg] = useState(false)
     const [index, setIndex] = useState(0)
-
-    const pictureCards = imgUrls.map(imgUrl => <PictureCard imgUrl={imgUrl} handleShowImg={handleShowImg} />)
     const [uploadPic, setUploadPic] = useState([]);
+    
+    const defaultCards = imgUrls.map(imgUrl => <PictureCard imgUrl={imgUrl} handleShowImg={handleShowImg} />);
+    const pictureCards = allURLs.map(imgURL => <PictureCard imgUrl={imgURL.image_url} handleShowImg={handleShowImg} />);
+    
+    //Load associated picture records on load of /Album endpoint
+    useEffect(() => {
+        console.log("Inside Album useEffect");        
+        const picFetchURL = `/albums/${activeAlbum.id}`;
+        fetch(picFetchURL)
+        .then(res => res.json())
+        .then(response => {
+            console.log("Successful fetch - displaying results");
+            console.log(response);
+            setAllURLs(response);
+        });        
+    },[]);
 
     function handleShow() {
         setShow(true)
@@ -63,11 +72,10 @@ function Album({activeAlbum}) {
             let imgURL = response.secure_url;
             console.log(imgURL);
             const picRecord = {
-                //need to have access to album_id here
-                album_id: 1,
+                album_id: activeAlbum.id,
                 image_url: imgURL
             };
-            const secondPostURL = 'http://localhost:3000/pictures';
+            const secondPostURL = '/pictures';
             const secondPostConfig = {
                 method: 'POST',
                 headers: {'Content-Type':'application/json'},
@@ -75,7 +83,10 @@ function Album({activeAlbum}) {
             };
             fetch(secondPostURL, secondPostConfig)
             .then(res => res.json())
-            .then(response => console.log(response));
+            .then(pictureRecordObj => {
+                console.log(pictureRecordObj);
+                setAllURLs([...allURLs, pictureRecordObj]);
+            });
             //need a POST target for /pictures resource here
         });
         //still need to close the modal window on upload
@@ -90,7 +101,7 @@ function Album({activeAlbum}) {
                 </Col>
             </Row>
             <Row sm="auto" className="d-flex justify-content-center">
-                {pictureCards}
+                {allURLs.length > 0 ? pictureCards : defaultCards}
             </Row>
             <Button className="my-5 btn-circle btn-xl fixed-bottom" variant="primary" onClick={handleShow}>
                 <div>
