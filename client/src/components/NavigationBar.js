@@ -1,4 +1,4 @@
-import {useHistory} from "react-router-dom"
+import {useHistory, Link, NavLink} from "react-router-dom"
 import {Navbar, Container, Nav, Offcanvas, NavDropdown, Form, FormControl, Button} from 'react-bootstrap'
 
 function NavigationBar({user, setCurrentUser}) {
@@ -18,7 +18,7 @@ function NavigationBar({user, setCurrentUser}) {
         <>
             <Navbar bg="primary" expand={false}>
                 <Container fluid>
-                    <Navbar.Brand href="/">Pictostash</Navbar.Brand>
+                    {user ? <Navbar.Brand as={NavLink} to="/albumlist">Pictostash</Navbar.Brand> : <Navbar.Brand as={NavLink} to="/">Pictostash</Navbar.Brand>}
                     <Navbar.Toggle aria-controls="offcanvasNavbar" />
                     <Navbar.Offcanvas
                     id="offcanvasNavbar"
@@ -30,8 +30,8 @@ function NavigationBar({user, setCurrentUser}) {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Nav className="justify-content-end flex-grow-1 pe-3">
-                        {user ? <Nav.Link href="#action2">{user.username}</Nav.Link> : null}
-                        {user ? <Nav.Link href="/albumlist">Albums</Nav.Link> : null}
+                        {user ? <h4>Hello {user.username}!</h4> : null}
+                        {user ? <Link to="/albumlist">Albums</Link> : null}
                         {user ? <Button onClick={handleLogout}>Logout</Button> : null}
                         </Nav>
                     </Offcanvas.Body>

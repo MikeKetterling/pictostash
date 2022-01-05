@@ -31,7 +31,7 @@ function Login({ setCurrentUser }) {
         resp.json().then((user) => {
           setCurrentUser(user);
         })
-        history.push("/album"); 
+        history.push("/albumlist"); 
       } else {
         resp.json().then((errors) => {
           console.error(errors);
