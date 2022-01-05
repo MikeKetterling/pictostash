@@ -1,4 +1,5 @@
 import { Row, Col, Button, Modal } from "react-bootstrap";
+import Form from 'react-bootstrap/Form';
 import { useState } from "react";
 import PictureCard from "./PictureCard";
 import CarouselImage from "./CarouselImage";
@@ -10,6 +11,7 @@ function Album() {
     const [index, setIndex] = useState(0)
 
     const pictureCards = imgUrls.map(imgUrl => <PictureCard imgUrl={imgUrl} handleShowImg={handleShowImg} />)
+    const [uploadPic, setUploadPic] = useState([]);
 
     function handleShow() {
         setShow(true)
@@ -25,6 +27,53 @@ function Album() {
 
     function handleCloseImg() {
         setShowImg(false)
+    }
+    
+    //upload helpers (within modal)
+    function changeHandler(e) {
+        const form = e.currentTarget;
+        const allFiles = form.files;
+        setUploadPic(allFiles[0]);
+    } 
+    
+    //upload helper (within modal)    
+    function submitHandler(e) {
+        e.preventDefault();
+        //initial upload pre-work
+        let formData = new FormData();
+        formData.append('file', uploadPic);
+        formData.append('upload_preset', 'unsigned_user');
+        const postURL = 'https://api.cloudinary.com/v1_1/flatironstudent/image/upload';
+        const postConfig = {
+            method: 'POST',
+            body: formData
+        };
+        
+        //initial upload work
+        fetch(postURL, postConfig)
+        .then(res => res.json())
+        .then(response => {
+            handleClose();
+            let imgURL = response.secure_url;
+            console.log(imgURL);
+            const picRecord = {
+                //need to have access to album_id here
+                album_id: 1,
+                image_url: imgURL
+            };
+            const secondPostURL = 'http://localhost:3000/pictures';
+            const secondPostConfig = {
+                method: 'POST',
+                headers: {'Content-Type':'Application/json'},
+                body: JSON.stringify(picRecord)
+            };
+            //fetch(secondPostURL, secondPostConfig)
+            //.then(res => res.json())
+            //.then(response => console.log(response));
+            //need a POST target for /pictures resource here
+        });
+        //still need to close the modal window on upload
+        //and create associated records for pic upload
     }
 
     return (
@@ -50,12 +99,16 @@ function Album() {
                 <Modal.Header closeButton>
                     <Modal.Title>Upload Photo</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Upload form goes here!</Modal.Body>
+                <Modal.Body>
+                    <Form onSubmit={submitHandler}>
+                        <Form.Control type="file" onChange={changeHandler} />                        
+                    </Form>                        
+                </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button type="submit" variant="primary" onClick={submitHandler}>
                         Upload Photo
                     </Button>
                 </Modal.Footer>

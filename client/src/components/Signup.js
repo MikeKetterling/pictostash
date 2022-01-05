@@ -2,7 +2,7 @@ import { Form, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import { useHistory, Link } from "react-router-dom"
 
-//need to pass in setCurrentUser from parent
+
 function Signup({setCurrentUser}) {
   const history = useHistory();
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ function Signup({setCurrentUser}) {
       body: JSON.stringify(formData),
     };
 
-    fetch("/users", configObj)
+    fetch("/signup", configObj)
     .then((resp) => {
       if (resp.ok) {
         resp.json().then((user) => {
