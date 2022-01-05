@@ -9,7 +9,7 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
         name: '',
         description: '',
         location: '',
-        time: ''
+        date: ''
     })
 
     function handleShow() {
@@ -38,7 +38,7 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
     //upload helper (within modal)    
     function submitHandler(e) {
         e.preventDefault();
-        if (formData.description.length === 0 || formData.location.length === 0 || formData.time === 0) {
+        if (formData.description.length === 0 || formData.location.length === 0 || formData.date === 0) {
             console.log("I see you trying to submit baaaad data ='(");
         } else {            
             console.log('I see you trying to create a new album.');
@@ -91,7 +91,7 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
                         <Form.Control type="text" name="name" placeholder="album name" onChange={changeHandler} value={formData.name}/>
                         <Form.Control type="text" name="description" placeholder="description" onChange={changeHandler} value={formData.description}/>
                         <Form.Control type="text" name="location" placeholder="location" onChange={changeHandler} value={formData.location}/>
-                        <Form.Control type="date" name="time" onChange={changeHandler} value={formData.time}/>
+                        <Form.Control type="date" name="date" onChange={changeHandler} value={formData.date}/>
                     </Form>                        
                 </Modal.Body>
                 <Modal.Footer>
