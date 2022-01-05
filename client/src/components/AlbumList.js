@@ -2,7 +2,7 @@ import { Row, Col, Button, Modal, Form } from "react-bootstrap";
 import AlbumCard from "./AlbumCard";
 import {useState} from "react";
 
-function AlbumList({user}) {
+function AlbumList() {
 
     const [show, setShow] = useState(false);
     const [formData, setFormData] = useState({
