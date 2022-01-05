@@ -31,7 +31,7 @@ function Login({ setCurrentUser }) {
         resp.json().then((user) => {
           setCurrentUser(user);
         })
-        history.push("/album"); 
+        history.push("/albumlist"); 
       } else {
         resp.json().then((errors) => {
           console.error(errors);
@@ -39,15 +39,6 @@ function Login({ setCurrentUser }) {
       }
     });
   };
-
-  const handleLogout = () => {
-    fetch('/logout', {method: "DELETE"})
-    .then(res => {
-          if (res.ok) {
-            setCurrentUser(null)
-          }
-        })
-  }
 
 
     return (
@@ -78,11 +69,6 @@ function Login({ setCurrentUser }) {
           <br></br>
 
         <Link exact to="/signup">Don't have an account? Create one here</Link>
-        <br/>
-        <br/>
-
-
-        <Button onClick={handleLogout}>Logout</Button>
 
       </div>
     );
