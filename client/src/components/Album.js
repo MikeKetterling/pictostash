@@ -2,9 +2,15 @@ import { Row, Col, Button, Modal } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import { useState } from "react";
 import PictureCard from "./PictureCard";
+import CarouselImage from "./CarouselImage";
 
 function Album() {
+    const imgUrls = ['https://picsum.photos/500/500', 'https://picsum.photos/400/500', 'https://picsum.photos/500/400', 'https://picsum.photos/400/400', 'https://picsum.photos/600/500']
     const [show, setShow] = useState(false)
+    const [showImg, setShowImg] = useState(false)
+    const [index, setIndex] = useState(0)
+
+    const pictureCards = imgUrls.map(imgUrl => <PictureCard imgUrl={imgUrl} handleShowImg={handleShowImg} />)
     const [uploadPic, setUploadPic] = useState([]);
 
     function handleShow() {
@@ -15,6 +21,14 @@ function Album() {
         setShow(false)
     }
 
+    function handleShowImg() {
+        setShowImg(true)
+    }
+
+    function handleCloseImg() {
+        setShowImg(false)
+    }
+    
     //upload helpers (within modal)
     function changeHandler(e) {
         const form = e.currentTarget;
@@ -70,11 +84,7 @@ function Album() {
                 </Col>
             </Row>
             <Row sm="auto" className="d-flex justify-content-center">
-                <PictureCard/>
-                <PictureCard/>
-                <PictureCard/>
-                <PictureCard/>
-                <PictureCard/>
+                {pictureCards}
             </Row>
             <Button className="my-5 btn-circle btn-xl fixed-bottom" variant="primary" onClick={handleShow}>
                 <div>
@@ -102,6 +112,10 @@ function Album() {
                         Upload Photo
                     </Button>
                 </Modal.Footer>
+            </Modal>
+
+            <Modal show={showImg} onHide={handleCloseImg} centered>
+                <CarouselImage imgUrls={imgUrls} index={index} setIndex={setIndex} />
             </Modal>
         </div>
     )
