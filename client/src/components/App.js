@@ -50,7 +50,14 @@ function App() {
           <Signup setCurrentUser ={setCurrentUser}/>
         </Route>
         <Route exact path="/albumlist">
-          <AlbumList user={currentUser} albums={userAlbums} addNewAlbum={addNewAlbum} activeAlbum={activeAlbum} setActiveAlbum={setActiveAlbum}/>
+          <AlbumList
+            user={currentUser}
+            albums={userAlbums}
+            addNewAlbum={addNewAlbum}
+            activeAlbum={activeAlbum}
+            setActiveAlbum={setActiveAlbum}
+            setUserAlbums={setUserAlbums}
+          />
         </Route>
         <Route exact path="/album">
           <Album activeAlbum={activeAlbum}/>

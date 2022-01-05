@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import {Card, Button, Col, Tooltip, OverlayTrigger} from 'react-bootstrap'
 import {useHistory} from 'react-router'
 
-function AlbumCard({album, setActiveAlbum}) {
+function AlbumCard({album, setActiveAlbum, deleteHandler}) {
 
     const history = useHistory()
     const [show, setShow] = useState(false)
@@ -32,7 +32,10 @@ function AlbumCard({album, setActiveAlbum}) {
                         {album.description ? album.description : "No description provided"}
                         </Card.Text>
                         <div className='album-btns'>
-                            <Button variant="primary" onClick={handleClick}>View Album</Button>
+                            <div className='album-actions'>
+                                <Button id='view-btn' variant="primary" onClick={handleClick}>View Album</Button>
+                                <Button id='delete-btn' variant="danger" onClick={() => deleteHandler(album.id)}>Delete Album</Button>
+                            </div>
                             <OverlayTrigger
                                 placement='right'
                                 delay={{ show: 150, hide: 200 }}

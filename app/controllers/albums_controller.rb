@@ -10,6 +10,13 @@ class AlbumsController < ApplicationController
         render json: new_album, status: :created
     end
 
+    def destroy
+        del_album = @current_user.albums.find_by(params[:album_id])
+        del_album.destroy
+        head :no_content
+    end
+
+
     private
 
     def album_params
