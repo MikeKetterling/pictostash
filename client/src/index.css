@@ -20,12 +20,10 @@ code {
 } 
 
 .btn-circle.btn-sm { 
-  width: 35px; 
-  height: 35px;
-  /* background-color: black; */
+  width: 34px; 
+  height: 34px;
   padding-bottom: 10px;
-  border-radius: 100%; 
-  /* text-align: center; */
+  border-radius: 100%;
 }
 
 .fixed-bottom {
@@ -61,4 +59,8 @@ code {
   display: flex;
   justify-content: left;
   text-align: left;
+}
+
+.card-img {
+  height: 300px;
 }
