@@ -2,21 +2,23 @@ import { useRef, useState } from 'react'
 import {Card, Button, Col, Tooltip, OverlayTrigger} from 'react-bootstrap'
 import {useHistory} from 'react-router'
 
-function AlbumCard() {
+function AlbumCard({album, setActiveAlbum}) {
 
     const history = useHistory()
     const [show, setShow] = useState(false)
     const target = useRef(null)
     const renderInfo = (props) => (
         <Tooltip id='info-tooltip' {...props}>
-            <p>Time:</p>
-            <p>Location:</p>
-            <p>Album Info:</p>
+            <p>Name: {album.name}</p>
+            <p>Time: {album.time}</p>
+            <p>Location: {album.location}</p>
+            <p>Album Info: {album.description}</p>
         </Tooltip>
     )
 
     function handleClick() {
-        history.push('/album')
+        setActiveAlbum(album.id);
+        history.push('/album');        
     }
 
     return (
@@ -25,10 +27,9 @@ function AlbumCard() {
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src="https://picsum.photos/100/100" />
                     <Card.Body>
-                        <Card.Title>Card Title</Card.Title>
+                        <Card.Title>{album.name ? album.name : "No title"}</Card.Title>
                         <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk of
-                        the card's content.
+                        {album.description ? album.description : "No description provided"}
                         </Card.Text>
                         <div className='album-btns'>
                             <Button variant="primary" onClick={handleClick}>View Album</Button>
