@@ -2,7 +2,7 @@ import { Row, Col, Button, Modal, Form } from "react-bootstrap";
 import AlbumCard from "./AlbumCard";
 import {useState} from "react";
 
-function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum}) {
+function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setUserAlbums}) {
 
     const [show, setShow] = useState(false);
     const [formData, setFormData] = useState({
@@ -20,7 +20,11 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum}) {
         setShow(false)
     }
 
-    const allAlbumCards = albums.map(album => <AlbumCard album={album} setActiveAlbum={setActiveAlbum}/>);
+    const allAlbumCards = albums.map(album => <AlbumCard
+        album={album}
+        setActiveAlbum={setActiveAlbum}
+        deleteHandler={deleteHandler}
+        />);
     
     //upload helpers (within modal)
     function changeHandler(e) {
@@ -49,6 +53,13 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum}) {
             .then(responseAlbumObj => addNewAlbum(responseAlbumObj));
         }
         handleClose();                
+    }
+
+    function deleteHandler(id) {
+        const filteredAlbums = albums.filter(album => album.id !== id)
+        console.log(filteredAlbums)
+        setUserAlbums([...filteredAlbums])
+        fetch(`/albums/${id}`, {method: "DELETE"})
     }
     
     return (

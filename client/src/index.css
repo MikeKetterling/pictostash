@@ -64,3 +64,13 @@ code {
 .card-img {
   height: 300px;
 }
+
+.album-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+#view-btn {
+  margin-bottom: 10px;
+}
