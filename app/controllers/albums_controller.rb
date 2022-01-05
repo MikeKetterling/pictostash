@@ -5,6 +5,11 @@ class AlbumsController < ApplicationController
         render json: all_albums, status: :ok
     end
 
+    def show        
+        this_album = Album.find_by(id: params[:id])
+        render json: this_album.pictures, status: :ok
+    end
+
     def create
         new_album = @current_user.albums.create!(album_params)
         render json: new_album, status: :created
