@@ -40,15 +40,6 @@ function Login({ setCurrentUser }) {
     });
   };
 
-  const handleLogout = () => {
-    fetch('/logout', {method: "DELETE"})
-    .then(res => {
-          if (res.ok) {
-            setCurrentUser(null)
-          }
-        })
-  }
-
 
     return (
       <div className="text-center">
@@ -78,11 +69,6 @@ function Login({ setCurrentUser }) {
           <br></br>
 
         <Link exact to="/signup">Don't have an account? Create one here</Link>
-        <br/>
-        <br/>
-
-
-        <Button onClick={handleLogout}>Logout</Button>
 
       </div>
     );

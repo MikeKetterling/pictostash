@@ -7,6 +7,7 @@ import Signup from "./Signup.js"
 import AlbumList from "./AlbumList.js";
 import Album from "./Album.js";
 import Sandbox from "./Sandbox.js";
+import NavigationBar from "./NavigationBar";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,6 +34,7 @@ function App() {
   
   return (
     <div className="App">
+      <NavigationBar user={currentUser} setCurrentUser ={setCurrentUser}/>
       <Switch>
         <Route exact path="/">
           <Login setCurrentUser ={setCurrentUser}/>
