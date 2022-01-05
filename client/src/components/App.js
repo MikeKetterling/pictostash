@@ -41,10 +41,10 @@ function App() {
           <Signup setCurrentUser ={setCurrentUser}/>
         </Route>
         <Route exact path="/albumlist">
-          <AlbumList/>
+          <AlbumList user={currentUser}/>
         </Route>
         <Route exact path="/album">
-          <Album/>
+          <Album />
         </Route>
         <Route exact path="/sandbox">
           <Sandbox />

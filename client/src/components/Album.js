@@ -50,12 +50,12 @@ function Album() {
             const secondPostURL = 'http://localhost:3000/pictures';
             const secondPostConfig = {
                 method: 'POST',
-                headers: {'Content-Type':'Application/json'},
+                headers: {'Content-Type':'application/json'},
                 body: JSON.stringify(picRecord)
             };
-            //fetch(secondPostURL, secondPostConfig)
-            //.then(res => res.json())
-            //.then(response => console.log(response));
+            fetch(secondPostURL, secondPostConfig)
+            .then(res => res.json())
+            .then(response => console.log(response));
             //need a POST target for /pictures resource here
         });
         //still need to close the modal window on upload
