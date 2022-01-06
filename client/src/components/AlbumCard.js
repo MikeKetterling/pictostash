@@ -10,7 +10,7 @@ function AlbumCard({album, setActiveAlbum, deleteHandler}) {
     const renderInfo = (props) => (
         <Tooltip id='info-tooltip' {...props}>
             <p>Name: {album.name}</p>
-            <p>Time: {album.time}</p>
+            <p>Date: {album.date}</p>
             <p>Location: {album.location}</p>
             <p>Album Info: {album.description}</p>
         </Tooltip>
