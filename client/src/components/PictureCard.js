@@ -6,7 +6,7 @@ function PictureCard({imgUrl, handleShowImg}) {
             <Col className='my-5 mx-3'>
                 <Card style={{ width: '18rem' }}>
                     <Card.Img className='card-img' variant="top" src={imgUrl} />
-                    <Card.Body>
+                    <Card.Body style={{"background-color": "#deb185"}}>
                         <Card.Title>Card Title</Card.Title>
                         <Card.Text>
                         Some quick example text to build on the card title and make up the bulk of
