@@ -1,7 +1,8 @@
 import {useHistory, Link, NavLink} from "react-router-dom"
-import {Navbar, Container, Nav, Offcanvas, NavDropdown, Form, FormControl, Button} from 'react-bootstrap'
+import {Navbar, Container, Nav, Offcanvas, Button} from 'react-bootstrap'
+import NavDropdownList from "./NavDropdownList"
 
-function NavigationBar({user, setCurrentUser}) {
+function NavigationBar({user, setCurrentUser, albums}) {
     const history = useHistory();
 
     const handleLogout = () => {
@@ -13,6 +14,8 @@ function NavigationBar({user, setCurrentUser}) {
               }
             })
     }
+
+console.log(albums)
 
     return(
         <>
@@ -31,8 +34,11 @@ function NavigationBar({user, setCurrentUser}) {
                     <Offcanvas.Body>
                         <Nav className="justify-content-end flex-grow-1 pe-3">
                         {user ? <h4>Hello {user.username}!</h4> : null}
-                        {user ? <Link to="/albumlist">Albums</Link> : null}
                         {user ? <Button onClick={handleLogout}>Logout</Button> : null}
+                        {user ? <Link to="/albumlist">All Albums</Link> : null}
+                        
+                        {albums.length > 0 ? <NavDropdownList albums={albums} /> : null}
+
                         </Nav>
                     </Offcanvas.Body>
                     </Navbar.Offcanvas>
