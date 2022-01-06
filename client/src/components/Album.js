@@ -13,7 +13,10 @@ function Album({activeAlbum}) {
     const [uploadPic, setUploadPic] = useState([]);
     
     const defaultCards = imgUrls.map(imgUrl => <PictureCard imgUrl={imgUrl} handleShowImg={handleShowImg} />);
-    const pictureCards = allURLs.map(imgURL => <PictureCard imgUrl={imgURL.image_url} handleShowImg={handleShowImg} />);
+    let pictureCards = [];
+    if (allURLs.length > 0) {
+        pictureCards = allURLs.map(imgURL => <PictureCard imgUrl={imgURL.image_url} handleShowImg={handleShowImg} />);
+    }
     
     //Load associated picture records on load of /Album endpoint
     useEffect(() => {
@@ -54,43 +57,46 @@ function Album({activeAlbum}) {
     //upload helper (within modal)    
     function submitHandler(e) {
         e.preventDefault();
-        //initial upload pre-work
-        let formData = new FormData();
-        formData.append('file', uploadPic);
-        formData.append('upload_preset', 'unsigned_user');
-        const postURL = 'https://api.cloudinary.com/v1_1/flatironstudent/image/upload';
-        const postConfig = {
-            method: 'POST',
-            body: formData
-        };
-        
-        //initial upload work
-        fetch(postURL, postConfig)
-        .then(res => res.json())
-        .then(response => {
-            handleClose();
-            let imgURL = response.secure_url;
-            console.log(imgURL);
-            const picRecord = {
-                album_id: activeAlbum.id,
-                image_url: imgURL
-            };
-            const secondPostURL = '/pictures';
-            const secondPostConfig = {
+        console.log(uploadPic);
+        if (uploadPic instanceof File) {
+            //initial upload pre-work
+            let formData = new FormData();
+            formData.append('file', uploadPic);
+            formData.append('upload_preset', 'unsigned_user');
+            const postURL = 'https://api.cloudinary.com/v1_1/flatironstudent/image/upload';
+            const postConfig = {
                 method: 'POST',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify(picRecord)
+                body: formData
             };
-            fetch(secondPostURL, secondPostConfig)
+            
+            //initial upload work
+            fetch(postURL, postConfig)
             .then(res => res.json())
-            .then(pictureRecordObj => {
-                console.log(pictureRecordObj);
-                setAllURLs([...allURLs, pictureRecordObj]);
+            .then(response => {
+                handleClose();
+                let imgURL = response.secure_url;
+                console.log(imgURL);
+                const picRecord = {
+                    album_id: activeAlbum.id,
+                    image_url: imgURL
+                };
+                const secondPostURL = '/pictures';
+                const secondPostConfig = {
+                    method: 'POST',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify(picRecord)
+                };
+                fetch(secondPostURL, secondPostConfig)
+                .then(res => res.json())
+                .then(pictureRecordObj => {
+                    console.log(pictureRecordObj);
+                    setAllURLs([...allURLs, pictureRecordObj]);
+                    setUploadPic([]);
+                });                
             });
-            //need a POST target for /pictures resource here
-        });
-        //still need to close the modal window on upload
-        //and create associated records for pic upload
+        } else {
+            console.log("Seeing empty upload attempt. Need to add error here.");
+        }        
     }
 
     return (

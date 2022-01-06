@@ -76,7 +76,7 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
     //upload helper (within modal)    
     function submitHandler(e) {
         e.preventDefault();
-        if (formData.name.length === 0 || formData.description.length === 0 || formData.location.length === 0 || formData.date === 0) {
+        if (formData.name.length === 0 || formData.description.length === 0 || formData.location.length === 0 || formData.date.length === 0) {
             formData.name === '' ? setHasName(false) : setHasName(true)
             formData.description === '' ? setHasDescription(false) : setHasDescription(true)
             formData.location === '' ? setHasLocation(false) : setHasLocation(true)
