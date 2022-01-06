@@ -5,6 +5,10 @@ import {useState} from "react";
 function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setUserAlbums}) {
 
     const [show, setShow] = useState(false);
+    const [hasName, setHasName] = useState(true)
+    const [hasDescription, setHasDescription] = useState(true)
+    const [hasLocation, setHasLocation] = useState(true)
+    const [hasDate, setHasDate] = useState(true)
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -38,7 +42,11 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
     //upload helper (within modal)    
     function submitHandler(e) {
         e.preventDefault();
-        if (formData.description.length === 0 || formData.location.length === 0 || formData.date === 0) {
+        if (formData.name.length === 0 || formData.description.length === 0 || formData.location.length === 0 || formData.date === 0) {
+            formData.name === '' ? setHasName(false) : setHasName(true)
+            formData.description === '' ? setHasDescription(false) : setHasDescription(true)
+            formData.location === '' ? setHasLocation(false) : setHasLocation(true)
+            formData.date === '' ? setHasDate(false) : setHasDate(true)
             console.log("I see you trying to submit baaaad data ='(");
         } else {            
             console.log('I see you trying to create a new album.');
@@ -50,9 +58,21 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
             };
             fetch(postURL, postConfig)
             .then(res => res.json())
-            .then(responseAlbumObj => addNewAlbum(responseAlbumObj));
-        }
-        handleClose();                
+            .then(responseAlbumObj => {
+                addNewAlbum(responseAlbumObj)
+                setFormData({
+                    name: '',
+                    description: '',
+                    location: '',
+                    date: ''
+                })
+                setHasName(true)
+                setHasDescription(true)
+                setHasLocation(true)
+                setHasDate(true)
+            });
+            handleClose(); 
+        }               
     }
 
     function deleteHandler(id) {
@@ -89,9 +109,13 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
                 <Modal.Body>
                     <Form onSubmit={submitHandler}>
                         <Form.Control type="text" name="name" placeholder="album name" onChange={changeHandler} value={formData.name}/>
+                        {hasName ? null : <Form.Text className='invalid-input' style={{color: 'red'}} >You must enter a name.</Form.Text>}
                         <Form.Control type="text" name="description" placeholder="description" onChange={changeHandler} value={formData.description}/>
+                        {hasDescription ? null : <Form.Text className='invalid-input' style={{color: 'red'}} >You must enter a description.</Form.Text>}
                         <Form.Control type="text" name="location" placeholder="location" onChange={changeHandler} value={formData.location}/>
+                        {hasLocation ? null : <Form.Text className='invalid-input' style={{color: 'red'}} >You must enter a location.</Form.Text>}
                         <Form.Control type="date" name="date" onChange={changeHandler} value={formData.date}/>
+                        {hasDate ? null : <Form.Text className='invalid-input' style={{color: 'red'}} >You must enter a date.</Form.Text>}
                     </Form>                        
                 </Modal.Body>
                 <Modal.Footer>
