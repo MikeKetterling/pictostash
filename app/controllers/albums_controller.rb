@@ -16,9 +16,19 @@ class AlbumsController < ApplicationController
     end
 
     def destroy
-        del_album = @current_user.albums.find_by(params[:album_id])
+        del_album = @current_user.albums.find_by(id: params[:id])
         del_album.destroy
         head :no_content
+    end
+
+    def update
+        updated_album = @current_user.albums.find_by(id: params[:id])
+        if updated_album
+            updated_album.update(album_params)
+            render json: updated_album
+        else
+            render json: "Something went wrong"
+        end
     end
 
 

@@ -5,6 +5,7 @@ import {useState} from "react";
 function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setUserAlbums}) {
 
     const [show, setShow] = useState(false);
+    const [showUpdateForm, setShowUpdateForm] = useState(false)
     const [hasName, setHasName] = useState(true)
     const [hasDescription, setHasDescription] = useState(true)
     const [hasLocation, setHasLocation] = useState(true)
@@ -15,6 +16,13 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
         location: '',
         date: ''
     })
+    const [updateForm, setUpdateForm] = useState({
+        name: '',
+        description: '',
+        location: '',
+        date: '',
+        id: ''
+    })
 
     function handleShow() {
         setShow(true)
@@ -24,10 +32,26 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
         setShow(false)
     }
 
+    function handleShowUpdate(name, description, location, date, id) {
+        setUpdateForm({
+            name: name,
+            description: description,
+            location: location,
+            date: date,
+            id: id
+        })
+        setShowUpdateForm(true)
+    }
+
+    function handleCloseUpdate() {
+        setShowUpdateForm(false)
+    }
+
     const allAlbumCards = albums.map(album => <AlbumCard
         album={album}
         setActiveAlbum={setActiveAlbum}
         deleteHandler={deleteHandler}
+        handleShowUpdate={handleShowUpdate}
         />);
     
     //upload helpers (within modal)
@@ -36,8 +60,18 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
         const val = e.target.value;
         setFormData({
             ...formData,
-            [key]: val});
+            [key]: val
+        });
     } 
+
+    function changeUpdateHandler(e) {
+        const key = e.target.name;
+        const val = e.target.value;
+        setUpdateForm({
+            ...updateForm,
+            [key]: val
+        });
+    }
     
     //upload helper (within modal)    
     function submitHandler(e) {
@@ -80,6 +114,44 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
         console.log(filteredAlbums)
         setUserAlbums([...filteredAlbums])
         fetch(`/albums/${id}`, {method: "DELETE"})
+    }
+
+    function editHandler() {
+        console.log(albums)
+        if (updateForm.name !== '' && updateForm.description !== '' && updateForm.location !== '' && updateForm.date !== '') {
+            const newAlbums = albums.map(album => {
+                if (album.id === updateForm.id) {
+                    console.log('here')
+                    return {
+                        name: updateForm.name,
+                        description: updateForm.description,
+                        location: updateForm.location,
+                        date: updateForm.date,
+                        id: updateForm.id,
+                        user_id: user.id
+                    }
+                } else {
+                    console.log(album)
+                    return album
+                }
+            })
+            console.log(newAlbums)
+            setUserAlbums([...newAlbums])
+            fetch(`/albums/${updateForm.id}`, {
+                method: 'PATCH',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updateForm)
+            })
+            .then(r => r.json())
+            .then(data => {
+                console.log(data)
+                handleCloseUpdate()
+            })
+        } else {
+            console.log("cannot apply changes")
+        }
     }
     
     return (
@@ -124,6 +196,36 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
                     </Button>
                     <Button type="submit" variant="primary" onClick={submitHandler}>
                         Create Album
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showUpdateForm} onHide={handleCloseUpdate}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Your Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={editHandler}>
+                        <Form.Text className='invalid-input' >Album Name</Form.Text>
+                        <Form.Control type="text" name="name" placeholder="album name" onChange={changeUpdateHandler} value={updateForm.name}/>
+                        {updateForm.name !== '' ? null : <Form.Text className='invalid-input' style={{color: 'red'}} >You must enter a name.</Form.Text>}
+                        <Form.Text className='invalid-input' >Description</Form.Text>
+                        <Form.Control type="text" name="description" placeholder="description" onChange={changeUpdateHandler} value={updateForm.description}/>
+                        {updateForm.description !== '' ? null : <Form.Text className='invalid-input' style={{color: 'red'}} >You must enter a description.</Form.Text>}
+                        <Form.Text className='invalid-input' >Location</Form.Text>
+                        <Form.Control type="text" name="location" placeholder="location" onChange={changeUpdateHandler} value={updateForm.location}/>
+                        {updateForm.location !== '' ? null : <Form.Text className='invalid-input' style={{color: 'red'}} >You must enter a location.</Form.Text>}
+                        <Form.Text className='invalid-input' >Date</Form.Text>
+                        <Form.Control type="date" name="date" onChange={changeUpdateHandler} value={updateForm.date}/>
+                        {updateForm.date !== '' ? null : <Form.Text className='invalid-input' style={{color: 'red'}} >You must enter a date.</Form.Text>}
+                    </Form>                        
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseUpdate}>
+                        Close
+                    </Button>
+                    <Button type="submit" variant="primary" onClick={editHandler}>
+                        Apply Changes
                     </Button>
                 </Modal.Footer>
             </Modal>
