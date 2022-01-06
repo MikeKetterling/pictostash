@@ -3,7 +3,7 @@ import {Form, Button} from 'react-bootstrap'
 import { useState } from 'react'
 
 
-function Login({ setCurrentUser }) {
+function Login({ setCurrentUser, setIsAuthenticated, setUserAlbums }) {
   const history = useHistory();
   const [formData, setFormData] = useState({
     username: "",
@@ -30,6 +30,8 @@ function Login({ setCurrentUser }) {
       if (resp.ok) {
         resp.json().then((user) => {
           setCurrentUser(user);
+          setIsAuthenticated(true);
+          setUserAlbums(user?.albums);
         })
         history.push("/albumlist"); 
       } else {

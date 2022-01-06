@@ -44,7 +44,7 @@ function App() {
       <NavigationBar user={currentUser} setCurrentUser ={setCurrentUser}/>
       <Switch>
         <Route exact path="/">
-          <Login setCurrentUser ={setCurrentUser}/>
+          <Login setUserAlbums={setUserAlbums} setIsAuthenticated={setIsAuthenticated} setCurrentUser ={setCurrentUser}/>
         </Route>
         <Route exact path="/signup">
           <Signup setCurrentUser ={setCurrentUser}/>
