@@ -29,7 +29,7 @@ function Album({activeAlbum}) {
             console.log(response);
             setAllURLs(response);
         });        
-    },[]);
+    },[activeAlbum]);
 
     function handleShow() {
         setShow(true)

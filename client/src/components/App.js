@@ -29,7 +29,6 @@ function App() {
   }, []);
 
   console.log(currentUser);
-  console.log(userAlbums);
 
 
   //state update helper
@@ -39,7 +38,7 @@ function App() {
   
   return (
     <div className="App">
-      <NavigationBar user={currentUser} setCurrentUser ={setCurrentUser} albums={userAlbums}/>
+      <NavigationBar user={currentUser} setCurrentUser ={setCurrentUser} albums={userAlbums} setActiveAlbum={setActiveAlbum}/>
       <Switch>
         <Route exact path="/">
           <Login setUserAlbums={setUserAlbums} setIsAuthenticated={setIsAuthenticated} setCurrentUser ={setCurrentUser}/>
@@ -57,7 +56,7 @@ function App() {
             setUserAlbums={setUserAlbums}
           />
         </Route>
-        <Route exact path="/album">
+        <Route exact path="/album/:id">
           <Album activeAlbum={activeAlbum}/>
         </Route>
         <Route exact path="/sandbox">

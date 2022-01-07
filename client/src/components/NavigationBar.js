@@ -2,7 +2,7 @@ import {useHistory, Link, NavLink} from "react-router-dom"
 import {Navbar, Container, Nav, Offcanvas, Button} from 'react-bootstrap'
 import NavDropdownList from "./NavDropdownList"
 
-function NavigationBar({user, setCurrentUser, albums}) {
+function NavigationBar({user, setCurrentUser, albums, setActiveAlbum}) {
     const history = useHistory();
 
     const handleLogout = () => {
@@ -37,7 +37,7 @@ console.log(albums)
                         {user ? <Button onClick={handleLogout}>Logout</Button> : null}
                         {user ? <Link to="/albumlist">All Albums</Link> : null}
                         
-                        {albums.length > 0 ? <NavDropdownList albums={albums} /> : null}
+                        {albums.length > 0 ? <NavDropdownList albums={albums} setActiveAlbum={setActiveAlbum} /> : null}
 
                         </Nav>
                     </Offcanvas.Body>
