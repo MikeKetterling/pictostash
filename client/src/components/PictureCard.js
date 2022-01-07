@@ -5,7 +5,7 @@ function PictureCard({imgUrl, handleShowImg}) {
         <div className="picture-card">
             <Col className='my-5 mx-3'>
                 <Card style={{ width: '18rem' }}>
-                    <Card.Img className='card-img' variant="top" src={imgUrl} />
+                    <Card.Img className='card-img' variant="top" src={imgUrl} style={{'object-fit': 'cover'}} />
                     <Card.Body style={{"background-color": "#deb185"}}>
                         <Card.Title>Card Title</Card.Title>
                         <Card.Text>

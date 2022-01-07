@@ -2,6 +2,14 @@ import { useRef, useState } from 'react'
 import {Card, Button, Col, Tooltip, OverlayTrigger, Row} from 'react-bootstrap'
 import {useHistory} from 'react-router'
 
+const imgStyle = {
+    'object-fit': 'cover',
+    'max-height': '18rem',
+    'max-width' : '18rem',
+    'min-height': '18rem',
+    'min-width' : '18rem'
+}
+
 function AlbumCard({album, setActiveAlbum, deleteHandler, handleShowUpdate}) {
 
     const history = useHistory()
@@ -24,8 +32,8 @@ function AlbumCard({album, setActiveAlbum, deleteHandler, handleShowUpdate}) {
     return (
         <div className="album-card">
             <Col className='my-5 mx-3'>
-                <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src="https://picsum.photos/100/100" />
+                <Card style={{ minwidth: '18rem' }}>
+                    <Card.Img variant="top" src="https://picsum.photos/300/300" style={imgStyle}/>
                     <Card.Body style={{"background-color": "#deb185"}}>
                         <Card.Title style={{"margin-bottom": '15px'}}>{album.name ? album.name : "No title"}</Card.Title>
                         <Row className='my-1'>
