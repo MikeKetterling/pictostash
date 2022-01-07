@@ -14,8 +14,8 @@ function CarouselImage({imgUrls, index, setIndex}) {
         <img className="d-block w-100" src={url} alt="" />
     </Carousel.Item>)
 
-    const handleSelect = (selectedIndex, e) => {
-        setIndex(selectedIndex);
+    const handleSelect = (index) => {
+        setIndex(index);
     };
 
     return (

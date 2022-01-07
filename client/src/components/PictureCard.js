@@ -1,6 +1,6 @@
 import {Card, Button, Col} from 'react-bootstrap'
 
-function PictureCard({imgUrl, handleShowImg}) {
+function PictureCard({imgUrl, handleShowImg, currId}) {
     return (
         <div className="picture-card">
             <Col className='my-5 mx-3'>
@@ -12,7 +12,7 @@ function PictureCard({imgUrl, handleShowImg}) {
                         Some quick example text to build on the card title and make up the bulk of
                         the card's content.
                         </Card.Text>
-                        <Button variant="primary" onClick={handleShowImg}>View Image</Button>
+                        <Button variant="primary" onClick={() => handleShowImg(currId)}>View Image</Button>
                     </Card.Body>
                 </Card>
             </Col>

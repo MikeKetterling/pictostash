@@ -21,7 +21,8 @@ function Album({activeAlbum}) {
     function generatePictureCards (allURLs) {
         let pictureCards = [];
         if (allURLs.length > 0) {
-            pictureCards = allURLs.map(imgURL => <PictureCard imgUrl={imgURL.image_url} handleShowImg={handleShowImg} />);
+            let setIds = 0
+            pictureCards = allURLs.map(imgURL => <PictureCard imgUrl={imgURL.image_url} currId={setIds++} handleShowImg={handleShowImg} />);
         } else {
             pictureCards = imgUrls.map(imgUrl => <PictureCard imgUrl={imgUrl} handleShowImg={handleShowImg} />);
         }
@@ -51,7 +52,8 @@ function Album({activeAlbum}) {
         setShow(false)
     }
 
-    function handleShowImg() {
+    function handleShowImg(id) {
+        setIndex(id)
         setShowImg(true)
     }
 
