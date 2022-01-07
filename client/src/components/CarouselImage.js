@@ -2,7 +2,15 @@ import { Carousel } from "react-bootstrap";
 
 function CarouselImage({imgUrls, index, setIndex}) {
 
-    const items = imgUrls.map(url => <Carousel.Item>
+    let unpackedURLs = [];
+    
+    if (imgUrls[0]?.image_url !== undefined) {
+        unpackedURLs = imgUrls.map(imgRecord => imgRecord.image_url)
+    } else {
+        unpackedURLs = imgUrls;
+    }
+
+    const items = unpackedURLs.map(url => <Carousel.Item>
         <img className="d-block w-100" src={url} alt="" />
     </Carousel.Item>)
 
