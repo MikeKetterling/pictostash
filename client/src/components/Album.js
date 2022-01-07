@@ -162,7 +162,7 @@ function Album({activeAlbum}) {
             </Modal>
 
             <Modal show={showImg} onHide={handleCloseImg} centered>
-                <CarouselImage imgUrls={imgUrls} index={index} setIndex={setIndex} />
+                {allURLs.length > 0 ? <CarouselImage imgUrls={allURLs} index={index} setIndex={setIndex} /> : <CarouselImage imgUrls={imgUrls} index={index} setIndex={setIndex} />}
             </Modal>
         </div>
     )
