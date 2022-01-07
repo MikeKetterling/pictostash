@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Route, Switch, useHistory} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 // import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./Login.js"
@@ -15,7 +15,6 @@ function App() {
   const [userAlbums, setUserAlbums] = useState([]);
   const [activeAlbum, setActiveAlbum] = useState([]);
   
-  const history = useHistory();
 
   useEffect(() => {
     fetch("/me").then((resp) => {
@@ -28,11 +27,9 @@ function App() {
       }
     });
   }, []);
-    //gaurd for unaothorized, still needs testing
-  // if (!isAuthenticated) {
-  //   history.push("/");
-  // }
+
   console.log(currentUser);
+
 
   //state update helper
   function addNewAlbum(albumObj) {
@@ -41,7 +38,7 @@ function App() {
   
   return (
     <div className="App">
-      <NavigationBar user={currentUser} setCurrentUser ={setCurrentUser}/>
+      <NavigationBar user={currentUser} setCurrentUser ={setCurrentUser} albums={userAlbums} setActiveAlbum={setActiveAlbum}/>
       <Switch>
         <Route exact path="/">
           <Login setUserAlbums={setUserAlbums} setIsAuthenticated={setIsAuthenticated} setCurrentUser ={setCurrentUser}/>
@@ -59,7 +56,7 @@ function App() {
             setUserAlbums={setUserAlbums}
           />
         </Route>
-        <Route exact path="/album">
+        <Route exact path="/album/:id">
           <Album activeAlbum={activeAlbum}/>
         </Route>
         <Route exact path="/sandbox">
