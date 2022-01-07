@@ -158,7 +158,7 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
         <div className="container image-list">
             <Row>
                 <Col lg={12}>
-                    <h1 className="text-center my-5">YOUR ALBUMS</h1>
+                    <h1 className="text-center my-5">{user ? `${user.username.toUpperCase()}'S ALBUMS` : "YOUR ALBUMS"}</h1>
                 </Col>
             </Row>
             <Row sm="auto" className="d-flex justify-content-center">

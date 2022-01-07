@@ -10,13 +10,25 @@ function Album({activeAlbum}) {
     const [show, setShow] = useState(false)
     const [showImg, setShowImg] = useState(false)
     const [index, setIndex] = useState(0)
-    const [uploadPic, setUploadPic] = useState([]);
+    const [uploadPictures, setUploadPictures] = useState([]);    
     
     const defaultCards = imgUrls.map(imgUrl => <PictureCard imgUrl={imgUrl} handleShowImg={handleShowImg} />);
     let pictureCards = [];
     if (allURLs.length > 0) {
         pictureCards = allURLs.map(imgURL => <PictureCard imgUrl={imgURL.image_url} handleShowImg={handleShowImg} />);
     }
+
+    function generatePictureCards (allURLs) {
+        let pictureCards = [];
+        if (allURLs.length > 0) {
+            pictureCards = allURLs.map(imgURL => <PictureCard imgUrl={imgURL.image_url} handleShowImg={handleShowImg} />);
+        } else {
+            pictureCards = imgUrls.map(imgUrl => <PictureCard imgUrl={imgUrl} handleShowImg={handleShowImg} />);
+        }
+        return pictureCards;
+    }
+
+    let testCards = generatePictureCards(allURLs);
     
     //Load associated picture records on load of /Album endpoint
     useEffect(() => {
@@ -49,51 +61,63 @@ function Album({activeAlbum}) {
     
     //upload helpers (within modal)
     function changeHandler(e) {
-        const form = e.currentTarget;
+        const form = e.target;
         const allFiles = form.files;
-        setUploadPic(allFiles[0]);
+        setUploadPictures(Object.values(allFiles));        
     } 
     
     //upload helper (within modal)    
     function submitHandler(e) {
         e.preventDefault();
-        console.log(uploadPic);
-        if (uploadPic instanceof File) {
-            //initial upload pre-work
-            let formData = new FormData();
-            formData.append('file', uploadPic);
-            formData.append('upload_preset', 'unsigned_user');
-            const postURL = 'https://api.cloudinary.com/v1_1/flatironstudent/image/upload';
-            const postConfig = {
-                method: 'POST',
-                body: formData
-            };
-            
-            //initial upload work
-            fetch(postURL, postConfig)
-            .then(res => res.json())
-            .then(response => {
-                handleClose();
-                let imgURL = response.secure_url;
-                console.log(imgURL);
-                const picRecord = {
-                    album_id: activeAlbum.id,
-                    image_url: imgURL
-                };
-                const secondPostURL = '/pictures';
-                const secondPostConfig = {
-                    method: 'POST',
-                    headers: {'Content-Type':'application/json'},
-                    body: JSON.stringify(picRecord)
-                };
-                fetch(secondPostURL, secondPostConfig)
-                .then(res => res.json())
-                .then(pictureRecordObj => {
-                    console.log(pictureRecordObj);
-                    setAllURLs([...allURLs, pictureRecordObj]);
-                    setUploadPic([]);
-                });                
-            });
+        //verify upload attempt isn't empty
+        if (uploadPictures.length > 0) {            
+            //verify upload attempt contains the expected datatype
+            if (uploadPictures[0] instanceof File) {                
+                //fetch() constants
+                const postURL = 'https://api.cloudinary.com/v1_1/flatironstudent/image/upload';
+                const secondPostURL = '/pictures';                
+                //need to create fetches to cloudinary and pictostash for each picture upload
+                for (const file of uploadPictures) {
+                    //create form data object
+                    let fd = new FormData();
+                    //append file and preset
+                    fd.append('file', file);
+                    fd.append('upload_preset', 'unsigned_user');
+                    //each file will need its own postConfig
+                    const postConfig = {
+                        method: 'POST',
+                        body: fd
+                    };
+                    //upload pre-work completed - start work
+                    fetch(postURL, postConfig)
+                    .then(res => res.json())
+                    .then(response => {                        
+                        let imgURL = response.secure_url;                        
+                        //console.log(imgURL);
+                        const picRecord = {
+                            album_id: activeAlbum.id,
+                            image_url: imgURL
+                        };                        
+                        const secondPostConfig = {
+                            method: 'POST',
+                            headers: {'Content-Type':'application/json'},
+                            body: JSON.stringify(picRecord)
+                        };
+                        fetch(secondPostURL, secondPostConfig)
+                        .then(res => res.json())
+                        .then(pictureRecordObj => {
+                            //console.log(pictureRecordObj);
+                            setAllURLs([...allURLs, pictureRecordObj]);
+                        });
+                    });
+                }
+                //END for loop for fetches
+                //CLEANUP
+                setUploadPictures([]);
+                handleClose();                
+            } else {
+                console.log("State does not appear to contain image data to upload X_X");
+            }
         } else {
             console.log("Seeing empty upload attempt. Need to add error here.");
         }        
@@ -107,7 +131,7 @@ function Album({activeAlbum}) {
                 </Col>
             </Row>
             <Row sm="auto" className="d-flex justify-content-center">
-                {allURLs.length > 0 ? pictureCards : defaultCards}
+                {testCards}
             </Row>
             <Button className="my-5 btn-circle btn-xl fixed-bottom" variant="primary" onClick={handleShow}>
                 <div>
@@ -124,7 +148,7 @@ function Album({activeAlbum}) {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={submitHandler}>
-                        <Form.Control type="file" onChange={changeHandler} />                        
+                        <Form.Control type="file" onChange={changeHandler} multiple/>
                     </Form>                        
                 </Modal.Body>
                 <Modal.Footer>
@@ -132,7 +156,7 @@ function Album({activeAlbum}) {
                         Close
                     </Button>
                     <Button type="submit" variant="primary" onClick={submitHandler}>
-                        Upload Photo
+                        {uploadPictures.length === 1 ? "Upload Photo" : "Upload Photos"}
                     </Button>
                 </Modal.Footer>
             </Modal>
