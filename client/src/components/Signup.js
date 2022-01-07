@@ -1,4 +1,4 @@
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import { useHistory, Link } from "react-router-dom"
 
@@ -41,30 +41,31 @@ function Signup({setCurrentUser}) {
   };
 
   return (
-    <div className="text-center">
+    <div className="text-center d-flex flex-column align-items-center">
 
       <h2>Create your account</h2>
       <br/>
+      <Col sm={8} md={6} lg={4}>
+        <Form onSubmit={handleSubmit}>
+            
+            <Form.Group className="mb-3" controlId="formBasicUsername">
+              <Form.Control placeholder="Username" type="text" name="username" value={formData.username} onChange={(e) => handleChange(e)} />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Control placeholder="Password" type="password" name="password" value={formData.password} onChange={(e) => handleChange(e)} />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Control placeholder="Email" type="email" name="email" value={formData.email} onChange={(e) => handleChange(e)}/>
+            </Form.Group>
 
-      <Form onSubmit={handleSubmit}>
-          
-          <Form.Group className="mb-3" controlId="formBasicUsername">
-            <Form.Control placeholder="Username" type="text" name="username" value={formData.username} onChange={(e) => handleChange(e)} />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control placeholder="Password" type="password" name="password" value={formData.password} onChange={(e) => handleChange(e)} />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Control placeholder="Email" type="email" name="email" value={formData.email} onChange={(e) => handleChange(e)}/>
-          </Form.Group>
+            <br></br>
 
-          <br></br>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
 
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-
-      </Form>
+        </Form>
+      </Col>
       <br/>
       <Link to="/">Back to Log in Page</Link>
 
