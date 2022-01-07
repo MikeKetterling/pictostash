@@ -1,12 +1,12 @@
 class AlbumsController < ApplicationController
 
     def index
-        all_albums = Album.all
-        render json: all_albums, status: :ok
+        user_albums = @current_user.albums
+        render json: user_albums, status: :ok
     end
 
     def show        
-        this_album = Album.find_by(id: params[:id])
+        this_album = @current_user.albums.find_by(id: params[:id])
         render json: this_album.pictures, status: :ok
     end
 

@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from "react";
 import PictureCard from "./PictureCard";
 import CarouselImage from "./CarouselImage";
+import {useLocation} from 'react-router-dom';
 
 function Album({activeAlbum}) {    
     const imgUrls = ['https://picsum.photos/500/500', 'https://picsum.photos/400/500', 'https://picsum.photos/500/400', 'https://picsum.photos/400/400', 'https://picsum.photos/600/500']
@@ -10,7 +11,11 @@ function Album({activeAlbum}) {
     const [show, setShow] = useState(false)
     const [showImg, setShowImg] = useState(false)
     const [index, setIndex] = useState(0)
-    const [uploadPictures, setUploadPictures] = useState([]);    
+    const [uploadPictures, setUploadPictures] = useState([]);
+    
+    const location = useLocation();
+    let albumToLoad = location.pathname.split('/')[2];
+    
     
     const defaultCards = imgUrls.map(imgUrl => <PictureCard imgUrl={imgUrl} handleShowImg={handleShowImg} />);
     let pictureCards = [];
@@ -32,9 +37,9 @@ function Album({activeAlbum}) {
     let testCards = generatePictureCards(allURLs);
     
     //Load associated picture records on load of /Album endpoint
-    useEffect(() => {
-        console.log("Inside Album useEffect");        
-        const picFetchURL = `/albums/${activeAlbum.id}`;
+    useEffect(() => {        
+        //console.log("Inside Album useEffect");        
+        const picFetchURL = `/albums/${albumToLoad}`;
         fetch(picFetchURL)
         .then(res => res.json())
         .then(response => {
