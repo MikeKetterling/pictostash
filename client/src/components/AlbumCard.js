@@ -1,9 +1,9 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import {Card, Button, Col, Tooltip, OverlayTrigger, Row} from 'react-bootstrap'
 import {useHistory} from 'react-router'
 
 const imgStyle = {
-    'object-fit': 'cover',
+    'objectFit': 'cover',
     'max-height': '18rem',
     'max-width' : '18rem',
     'min-height': '18rem',
@@ -14,6 +14,7 @@ function AlbumCard({album, setActiveAlbum, deleteHandler, handleShowUpdate}) {
 
     const history = useHistory()
     const [show, setShow] = useState(false)
+    const [thumbnail, setThumbnail] = useState('')
     const target = useRef(null)
     const renderInfo = (props) => (
         <Tooltip id='info-tooltip' {...props}>
@@ -24,6 +25,16 @@ function AlbumCard({album, setActiveAlbum, deleteHandler, handleShowUpdate}) {
         </Tooltip>
     )
 
+    useEffect(() => {
+        console.log("Inside AlbumCard useEffect");        
+        const picFetchURL = `/albums/${album.id}`;
+        fetch(picFetchURL)
+        .then(res => res.json())
+        .then(response => {
+            setThumbnail(response.length > 0 ? response[0].image_url : "https://picsum.photos/300/300");
+        });        
+    },[]);
+
     function handleClick() {
         setActiveAlbum(album);
         history.push('/album');        
@@ -33,8 +44,8 @@ function AlbumCard({album, setActiveAlbum, deleteHandler, handleShowUpdate}) {
         <div className="album-card">
             <Col className='my-5 mx-3'>
                 <Card style={{ minwidth: '18rem' }}>
-                    <Card.Img variant="top" src="https://picsum.photos/300/300" style={imgStyle}/>
-                    <Card.Body style={{"background-color": "#deb185"}}>
+                    <Card.Img variant="top" src={thumbnail} style={imgStyle}/>
+                    <Card.Body style={{"backgroundColor": "#deb185"}}>
                         <Card.Title style={{"margin-bottom": '15px'}}>{album.name ? album.name : "No title"}</Card.Title>
                         <Row className='my-1'>
                             <Col sm={6}>

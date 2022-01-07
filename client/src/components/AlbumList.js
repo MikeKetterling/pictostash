@@ -48,6 +48,7 @@ function AlbumList({user, albums, addNewAlbum, activeAlbum, setActiveAlbum, setU
     }
 
     const allAlbumCards = albums.map(album => <AlbumCard
+        key={album.id}
         album={album}
         setActiveAlbum={setActiveAlbum}
         deleteHandler={deleteHandler}
