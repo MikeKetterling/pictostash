@@ -63,6 +63,10 @@ code {
 
 .card-img {
   height: 300px;
+  overflow: 'hidden';
+  object-fit: 'none';
+  background-repeat: 'no-repeat';
+  align-items: 'center';
 }
 
 .album-actions {
